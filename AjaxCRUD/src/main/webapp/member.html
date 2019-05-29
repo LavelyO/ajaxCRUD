@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Member</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	let currentPage = 1;	//	페이징을 위한 전역변수
+	
+    // 삭제
+    $('#btnRemove').on('click',function(){	//$('#btnRemove').click() 가능.
+    	let ck = new Array(); //	let ck=[];
+    	$('.ck:checked').each(function(index,item){
+    		ck.push($(item).val());
+    	});
+    	
+		console.log('#btnRemove click');
+		$.ajax({
+			url:'/removeMember'
+    		,type:'POST'
+    		,data:{'ck':ck}
+			,success:function(){
+				$('#btnList').trigger('click');
+			}
+       });
+    });
+//	추가
+    $('#btnAdd').on('click',function(){
+		if ($('#id').val() == ''){
+			$('#helper').text('ID를 입력하세요');
+	    	$('#id').focus();
+    	return false;
+    	}
+    	if ($('#pw').val() == ''){
+    		$('#helper').text('비밀번호를 입력하세요');
+	    	$('#pw').focus();
+    	return false;
+    	}
+    	if ($('#name').val() == ''){
+    		$('#helper').text('이름을 입력하세요');
+	    	$('#name').focus();
+    	return false;
+    	}
+    	if ($('#age').val() == ''){
+    		$('#helper').text('나이를 입력하세요');
+	    	$('#age').focus();
+    	return false;
+    	}
+    	if ($('#gender').val() == ''){
+    		$('#helper').text('성별을 입력하세요');
+	    	$('#gender').focus();
+    	return false;
+    	}
+    	let id = $('#id').val();
+    	let pw = $('#pw').val();
+    	let name = $('#name').val();
+    	let age = $('#age').val();
+    	let gender = $('#gender').val();
+    	$.ajax({
+			url:'/addMember'
+    		,type:'POST'
+    		,data:{'id':id,'pw':pw,'name':name,'age':age,'gender':gender}
+	    	,success:function(){
+//    	        $('#btnList').trigger('click');	//trigger 이벤트를 대신 해준다. trigger('load')하면 새로고침된다.
+    	        alert('정상적으로 입력되었습니다');
+    	        window.location.reload();
+        	}
+    	});
+    });
+    // 수정
+    $('#btnModify').on('click',function(){
+    	console.log('#btnModify click');
+    	//유효성 검사 if ($('#ID').val()!=''){})
+    	if ($('#id').val() == ''){
+    		$('#helper').text('ID를 입력하세요');
+	    	$('#id').focus();
+    		return false;
+    	}
+    	let id = $('#id').val();
+    	let pw = $('#pw').val();
+    	let name = $('#name').val();
+    	let age = $('#age').val();
+    	let gender = $('#gender').val();
+    	
+    	$.ajax({
+			url:'/modifyMember'
+    		,type:'POST'
+    		,data:{'id':id,'pw':pw,'name':name,'age':age,'gender':gender}
+    		,success:function(data){
+    			console.log(id);
+	            	$('#btnList').trigger('click');
+        	}
+    	});
+    });
+    // 목록
+    $('#btnList').on('click',function(){
+    	console.log('#btnList click');
+    	$.ajax({
+			url:'/getMembers'
+    		,type:'GET'
+    		,data:{'currentPage':currentPage}
+    		,success:function(data){//	Controller에서 currentPage를 받아옴.
+				
+            	$('#list').empty();
+    			$('#btnPrev').hide();//	이전.다음버튼숨겨두기
+    			$('#btnNext').hide();
+				$(data.list).each(function(index,item){//	반복문 사용해서 member list 가져오기
+					$('#list').append('<tr>');
+					$('#list').append('<td><input type="checkbox" class="ck" value="'+item.id+'"></td>');
+					$('#list').append('<td>'+item.id+'</td>');
+					$('#list').append('<td>'+item.pw+'</td>');
+					$('#list').append('<td>'+item.name+'</td>');
+					$('#list').append('<td>'+item.age+'</td>');
+					$('#list').append('<td>'+item.gender+'</td>');
+					$('#list').append('</tr>');
+				});
+				lastPage = (data.lastPage);
+				console.log(lastPage);	//	총 페이지수 단위테스트
+				if(currentPage > 1) {	//	만약 현재페이지가 1보다 작으면
+					$('#btnPrev').show();	//	이전버튼을 보여준다
+				}
+				if(currentPage < lastPage) {	//	만약 현재페이지가 마지막페이지보다작으면
+					$('#btnNext').show();	//	다음버튼을 보여준다
+				}
+			}
+    	});
+	});
+    $('#btnList').trigger('click');
+    $('#btnPrev').click(function(){
+    	currentPage = currentPage-1;
+    	console.log('#btnNext');
+    	$('#btnList').trigger('click');
+    });
+    $('#btnNext').click(function(){
+    	currentPage = currentPage+1;
+    	console.log('#btnNext');
+    	$('#btnList').trigger('click');
+    });
+    
+});
+</script>
+</head>
+	<h1>Member</h1>
+<body>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>pw</th>
+                <th>name</th>
+                <th>age</th>
+                <th>gender</th>
+                <th>추가</th>
+                <th>수정</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="text" id="id"></td>
+                <td><input type="password" id="pw"></td>
+                <td><input type="text" id="name"></td>
+                <td><input type="text" id="age"></td>
+                <td>
+                    <select id="gender">
+                    	<option value="">성별</option>
+                        <option value="Male">남</option>
+                        <option value="Female">여</option>
+                    </select>
+                </td>
+                <td><button id="btnAdd">add</button></td>
+                <td><button id="btnModify">modify</button></td>
+            </tr>
+            <tr>
+            	<td colspan="7">
+					<span id="helper"></span>&nbsp
+            	</td>
+            </tr>
+        </tbody>
+    </table>
+ 
+    <button id="btnRemove">remove</button>
+    <button id="btnList">회원리스트</button>
+    <table border="1">
+        <thead>
+            <tr>
+                <th></th>
+                <th>id</th>
+                <th>pw</th>
+                <th>name</th>
+                <th>age</th>
+                <th>gender</th>
+            </tr>
+        </thead>
+        <tbody id="list">
+        </tbody>
+    </table>
+		<div class="page">
+			<button id="btnPrev">이전</button>
+			<button id="btnNext">다음</button>
+        </div>
+</body>
+</html>
+

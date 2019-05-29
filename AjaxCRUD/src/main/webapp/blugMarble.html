@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Page Title</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+            .gameborder {
+                border : 1px solid #000000;
+                height: 50px
+            }
+</style>
+<script>
+	//$(document).ready(function(){	});
+	//$(function({}));
+	// function(){}->()=>{}, var --> let
+	$(()=>{
+		console.log('page start');
+		const END_LOCATION = 44;
+		let currentLocation = 1;
+		lset currentLocationBtnId='#b'+currentLocation;
+		$(currentLocationBtnId).attr('hidden',false);
+			
+		$('#play').click(()=>{
+			console.log('play button click test');
+			//Math.ceil(Math.random()*7);//0~6까지의 숫자가 나온다.
+			
+			let diceNum = Math.floor(Math.random()*6)+1;//1~6까지의 숫자가 나온다.
+			console.log('diceNum :'+diceNum);
+			$('#dice').val(diceNum);
+			currentLocation += diceNum;
+			if(currentLocation>END_LOCATION){
+				currentLocation -= END_LOCATION;
+			}
+			$('#point').val(currentLocation);
+		});
+		$('#build').click(()=>{
+			console.log('build btn click');
+			alert('이 도시에 건물을 짓겠습니까?');
+		});
+	});
+</script>
+</head>
+<body>
+	<div class="container">
+	<h5>
+		Blue Marble
+		<input id="play" type="button" value="주사위 play"/>
+		주사위 값 : <input id="dice" type="text"/>
+		이동 지점 : <input id="point" type="text"/>
+	</h5>
+	<div class="row">
+                <div class="col-sm-1 gameborder">
+                        1<span id="p1"><button id="b1" class="btn-danger">♠</button></span>
+                </div>
+                <div class="col-sm-1 gameborder">2<span id="p2"></span></div>
+                <div class="col-sm-1 gameborder">3<span id="p3"></span></div>
+                <div class="col-sm-1 gameborder">4<span id="p4"></span></div>
+                <div class="col-sm-1 gameborder">5<span id="p5"></span></div>
+                <div class="col-sm-1 gameborder">6<span id="p6"></span></div>
+                <div class="col-sm-1 gameborder">7<span id="p7"></span></div>
+                <div class="col-sm-1 gameborder">8<span id="p8"></span></div>
+                <div class="col-sm-1 gameborder">9<span id="p9"></span></div>
+                <div class="col-sm-1 gameborder">10<span id="p10"></span></div>
+                <div class="col-sm-1 gameborder">11<span id="p11"></span></div>
+                <div class="col-sm-1 gameborder">12<span id="p12"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 gameborder">44<span id="p44"></span></div>
+                <div class="col-sm-10"><span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</div>
+                <div class="col-sm-1 gameborder">13<span id="p13"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 gameborder">43<span id="p43"></span></div>
+                <div class="col-sm-10">&nbsp;</div>
+                <div class="col-sm-1 gameborder">14<span id="p14"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 gameborder">42<span id="p42"></span></div>
+                <div class="col-sm-10">&nbsp;</div>
+                <div class="col-sm-1 gameborder">15<span id="p15"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 gameborder">41<span id="p41"></span></div>
+                <div class="col-sm-10">&nbsp;</div>
+                <div class="col-sm-1 gameborder">16<span id="p16"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 gameborder">40<span id="p40"></span></div>
+                <div class="col-sm-10"><span class="bg-primary">Blue Marble / Copyright @JJDEV</span></div>
+                <div class="col-sm-1 gameborder">17<span id="p17"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 gameborder">39<span id="p39"></span></div>
+                <div class="col-sm-10">&nbsp;</div>
+                <div class="col-sm-1 gameborder">18<span id="p18"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 gameborder">38<span id="p38"></span></div>
+                <div class="col-sm-10">&nbsp;</div>
+                <div class="col-sm-1 gameborder">19<span id="p19"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 gameborder">37<span id="p37"></span></div>
+                <div class="col-sm-10">&nbsp;</div>
+                <div class="col-sm-1 gameborder">20<span id="p20"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 gameborder">36<span id="p36"></span></div>
+                <div class="col-sm-10">&nbsp;</div>
+                <div class="col-sm-1 gameborder">21<span id="p21"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 gameborder">35<span id="p35"></span></div>
+                <div class="col-sm-10">&nbsp;</div>
+                <div class="col-sm-1 gameborder">22<span id="p22"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 gameborder">34<span id="p34"></span></div>
+                <div class="col-sm-1 gameborder">33<span id="p33"></span></div>
+                <div class="col-sm-1 gameborder">32<span id="p32"></span></div>
+                <div class="col-sm-1 gameborder">31<span id="p31"></span></div>
+                <div class="col-sm-1 gameborder">30<span id="p30"></span></div>
+                <div class="col-sm-1 gameborder">29<span id="p29"></span></div>
+                <div class="col-sm-1 gameborder">28<span id="p28"></span></div>
+                <div class="col-sm-1 gameborder">27<span id="p27"></span></div>
+                <div class="col-sm-1 gameborder">26<span id="p26"></span></div>
+                <div class="col-sm-1 gameborder">25<span id="p25"></span></div>
+                <div class="col-sm-1 gameborder">24<span id="p24"></span></div>
+                <div class="col-sm-1 gameborder">23<span id="p23"></span></div>
+            </div>
+        </div>
+</body>
+</html>
