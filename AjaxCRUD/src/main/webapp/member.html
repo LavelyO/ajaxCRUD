@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Member</title>
+<style type="text/css">
+.error{
+  color: red;
+  
+}
+</style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
@@ -25,31 +31,58 @@ $(document).ready(function(){
 			}
        });
     });
+//	ID 중복체크
+
+//	아이디 체크여부 확인
+
+    $("#idCheck").click(function() {    //idCheck 버튼을 클릭했을 때 
+        let id =  $("#id").val(); //id 를 param.
+        $.ajax({
+            type : 'GET'
+            ,data : id
+            ,url : '/idCheck'
+            ,success : function(data) {
+                if (data == 1) {
+                    
+                    alert("사용 가능한 아이디입니다.");
+                    $("#id").focus();
+                    
+                
+                } else {
+                    alert("아이디가 존재합니다. 다른 아이디를 입력해주세요.");
+                    $("#pw").focus();
+                    //	아이디가 중복하지 않으면  idCheck = 1 
+                    idCheck = 1;
+                }
+            },
+        });
+    });
+
 	
 //	추가
     $('#btnAdd').on('click',function(){
 		if ($('#id').val() == ''){
-			$('#helper').text('ID를 입력하세요');
+			$('#helper').text('*ID를 입력하세요');
 	    	$('#id').focus();
     	return false;
     	}
     	if ($('#pw').val() == ''){
-    		$('#helper').text('비밀번호를 입력하세요');
+    		$('#helper').text('*비밀번호를 입력하세요');
 	    	$('#pw').focus();
     	return false;
     	}
     	if ($('#name').val() == ''){
-    		$('#helper').text('이름을 입력하세요');
+    		$('#helper').text('*이름을 입력하세요');
 	    	$('#name').focus();
     	return false;
     	}
     	if ($('#age').val() == ''){
-    		$('#helper').text('나이를 입력하세요');
+    		$('#helper').text('*나이를 입력하세요');
 	    	$('#age').focus();
     	return false;
     	}
     	if ($('#gender').val() == ''){
-    		$('#helper').text('성별을 입력하세요');
+    		$('#helper').text('*성별을 입력하세요');
 	    	$('#gender').focus();
     	return false;
     	}
@@ -160,10 +193,10 @@ $(document).ready(function(){
         </thead>
         <tbody>
             <tr>
-                <td><input type="text" id="id"></td>
-                <td><input type="password" id="pw"></td>
-                <td><input type="text" id="name"></td>
-                <td><input type="text" id="age"></td>
+                <td><input type="text" id="id" placeholder="ID를 입력하세요"><button id="idCheck">중복체크</button></td>
+                <td><input type="password" id="pw" placeholder="비밀번호를 입력하세요"></td>
+                <td><input type="text" id="name" placeholder="이름을 입력하세요"></td>
+                <td><input type="text" id="age" placeholder="나이를 입력하세요"></td>
                 <td>
                     <select id="gender">
                     	<option value="">성별</option>
@@ -171,36 +204,36 @@ $(document).ready(function(){
                         <option value="Female">여</option>
                     </select>
                 </td>
-                <td><button id="btnAdd">add</button></td>
-                <td><button id="btnModify">modify</button></td>
+                <td><button id="btnAdd">등록</button></td>
+                <td><button id="btnModify">수정</button></td>
             </tr>
             <tr>
             	<td colspan="7">
-					<span id="helper"></span>&nbsp
+					<span class="error" id="helper"></span>&nbsp
             	</td>
             </tr>
         </tbody>
     </table>
  
-    <button id="btnRemove">remove</button>
+    <button id="btnRemove">삭제</button>
     <button id="btnList">회원리스트</button>
     <table border="1">
         <thead>
             <tr>
                 <th></th>
-                <th>id</th>
-                <th>pw</th>
-                <th>name</th>
-                <th>age</th>
-                <th>gender</th>
+                <th>ID</th>
+                <th>Password</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
             </tr>
         </thead>
         <tbody id="list">
         </tbody>
     </table>
 		<div class="page">
-			<button id="btnPrev">이전</button>
-			<button id="btnNext">다음</button>
+			<button id="btnPrev">Prev</button>
+			<button id="btnNext">Next</button>
         </div>
 </body>
 </html>

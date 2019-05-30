@@ -36,7 +36,17 @@ public class MemberController {
 		System.out.println("memberMapper.selectMemberList.size :"+list.size());
 	return list;
 	}*/
-	 
+	@GetMapping("/idCheck")
+	public boolean idCheck(@RequestParam(value="id", required=false) String id) {
+        System.out.println("/idCheck 요청");
+        int result = memberMapper.idCheck(id);
+        if (result == 0) {
+        	return true;
+        } else {
+        	return false;
+        }
+	}
+	
 	@PostMapping("/addMember")
 	public void addMember(Member member) {
 		System.out.println("/addMember 요청");

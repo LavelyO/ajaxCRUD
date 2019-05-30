@@ -14,5 +14,5 @@ public interface MemberMapper {
 	public int deleteMember(Member member);
 	public int updateMember(Member member);
 	public int selectMemberCount();
-	public String idCheck(Member member);
+	public int idCheck(String memberId);
 }
