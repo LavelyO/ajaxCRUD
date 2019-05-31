@@ -27,7 +27,6 @@ public class MemberController {
 		Map<String, Object> map = memberService.getMemberList(currentPage);
 		return map;
 	}
-
 	/*
 	@GetMapping("/getMembers")
 	public List<Member> getMembers() {
@@ -39,8 +38,9 @@ public class MemberController {
 	@GetMapping("/idCheck")
 	public boolean idCheck(@RequestParam(value="id", required=false) String id) {
         System.out.println("/idCheck 요청");
-        int result = memberMapper.idCheck(id);
-        if (result == 0) {
+        String result = memberMapper.idCheck(id);
+        System.out.println(result+"MemberController.java result");
+        if (result == null) {
         	return true;
         } else {
         	return false;

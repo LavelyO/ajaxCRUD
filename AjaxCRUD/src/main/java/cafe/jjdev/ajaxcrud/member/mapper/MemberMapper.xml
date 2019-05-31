@@ -1,6 +1,6 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cafe.jjdev.ajaxcrud.member.mapper.MemberMapper">
-	<select id="idCheck" parameterType="cafe.jjdev.ajaxcrud.member.vo.Member">
+	<select id="idCheck" resultType="String" parameterType="cafe.jjdev.ajaxcrud.member.vo.Member">
 		SELECT	id
 		FROM	member
 		WHERE 	id=#{id}

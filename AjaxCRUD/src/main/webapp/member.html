@@ -4,17 +4,14 @@
 <meta charset="UTF-8">
 <title>Member</title>
 <style type="text/css">
-.error{
-  color: red;
-  
-}
+
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
 	let currentPage = 1;	//	페이징을 위한 전역변수
 	
-    // 삭제
+    //	삭제
     $('#btnRemove').on('click',function(){	//$('#btnRemove').click() 가능.
     	let ck = new Array(); //	let ck=[];
     	$('.ck:checked').each(function(index,item){
@@ -32,27 +29,20 @@ $(document).ready(function(){
        });
     });
 //	ID 중복체크
-
-//	아이디 체크여부 확인
-
-    $("#idCheck").click(function() {    //idCheck 버튼을 클릭했을 때 
-        let id =  $("#id").val(); //id 를 param.
+    $("#id").blur(function() {    //id input창을 벗어났을때,아래 이벤트를 실행한다.
+    	//	중복체크 버튼이 있을때, 버튼을 클릭했을 때 -> .click(function()) 으로 쓸 수 있다.
+    	let id =  $("#id").val(); //id 를 param.
         $.ajax({
             type : 'GET'
-            ,data : id
+            ,data : {'id':id}
             ,url : '/idCheck'
             ,success : function(data) {
-                if (data == 1) {
-                    
-                    alert("사용 가능한 아이디입니다.");
-                    $("#id").focus();
-                    
-                
-                } else {
-                    alert("아이디가 존재합니다. 다른 아이디를 입력해주세요.");
+            	console.log(data)
+                if (data == true) {
+                    $('#helper').text('사용 가능한 아이디입니다.');
                     $("#pw").focus();
-                    //	아이디가 중복하지 않으면  idCheck = 1 
-                    idCheck = 1;
+                } else {
+                	$('#helper').text('사용중인 아이디입니다');
                 }
             },
         });
@@ -112,12 +102,43 @@ $(document).ready(function(){
 	    	$('#id').focus();
     		return false;
     	}
+    	if ($('#pw').val() == ''){
+    		$('#helper').text('*비밀번호를 입력하세요');
+	    	$('#pw').focus();
+    	return false;
+    	}
+    	if ($('#name').val() == ''){
+    		$('#helper').text('*이름을 입력하세요');
+	    	$('#name').focus();
+    	return false;
+    	}
+    	if ($('#age').val() == ''){
+    		$('#helper').text('*나이를 입력하세요');
+	    	$('#age').focus();
+    	return false;
+    	}
+    	if ($('#gender').val() == ''){
+    		$('#helper').text('*성별을 입력하세요');
+	    	$('#gender').focus();
+    	return false;
+    	}
     	let id = $('#id').val();
     	let pw = $('#pw').val();
     	let name = $('#name').val();
     	let age = $('#age').val();
     	let gender = $('#gender').val();
-    	
+    	$.ajax({
+            type : 'GET'
+            ,data : {'id':id}
+            ,url : '/idCheck'
+            ,success : function(data) {
+            	console.log(data)
+                if (data == true) {
+                    $('#helper').text('*회원정보가 없습니다. 아이디를 확인하세요');
+                    $("#id").focus();
+           		}
+        	}
+    	});
     	$.ajax({
 			url:'/modifyMember'
     		,type:'POST'
@@ -193,7 +214,7 @@ $(document).ready(function(){
         </thead>
         <tbody>
             <tr>
-                <td><input type="text" id="id" placeholder="ID를 입력하세요"><button id="idCheck">중복체크</button></td>
+                <td><input type="text" id="id" placeholder="ID를 입력하세요"></td>
                 <td><input type="password" id="pw" placeholder="비밀번호를 입력하세요"></td>
                 <td><input type="text" id="name" placeholder="이름을 입력하세요"></td>
                 <td><input type="text" id="age" placeholder="나이를 입력하세요"></td>
@@ -209,7 +230,7 @@ $(document).ready(function(){
             </tr>
             <tr>
             	<td colspan="7">
-					<span class="error" id="helper"></span>&nbsp
+					<span id="helper"></span>&nbsp
             	</td>
             </tr>
         </tbody>
